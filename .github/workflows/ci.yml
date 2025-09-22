@@ -1,0 +1,105 @@
+name: WebApp CI
+
+on: [push, pull_request]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      # -------------------------
+      # Checkout repository
+      # -------------------------
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # -------------------------
+      # Node.js / ESLint / Stylelint
+      # -------------------------
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Cache Node modules
+        uses: actions/cache@v3
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - name: Install Node.js dependencies
+        run: |
+          npm install eslint stylelint stylelint-config-standard --save-dev
+          npx eslint --version
+          npx stylelint --version
+
+      - name: Run ESLint on JS files
+        run: |
+          if compgen -G "app/public/controllers/**/*.js" > /dev/null; then
+            npx eslint "app/public/controllers" "app/public/models" "app/public/views/js"
+          else
+            echo "No JS files found to lint."
+          fi
+
+      - name: Run Stylelint on CSS files
+        run: |
+          # Ensure stylelint config exists
+          echo '{ "extends": "stylelint-config-standard" }' > .stylelintrc.json
+          if compgen -G "app/public/views/css/**/*.css" > /dev/null; then
+            npx stylelint "app/public/views/css/**/*.css"
+          else
+            echo "No CSS files found to lint."
+          fi
+
+      # -------------------------
+      # HTML Validator
+      # -------------------------
+      - name: Install HTML Validator
+        run: npm install -g html-validator-cli
+
+      - name: Validate HTML files
+        run: |
+          shopt -s nullglob
+          files=(app/public/**/*.html)
+          if [ ${#files[@]} -eq 0 ]; then
+            echo "No HTML files found."
+          else
+            for file in "${files[@]}"; do
+              echo "Validating $file"
+              html-validator --file="$file" --verbose --errors-only
+            done
+          fi
+
+      # -------------------------
+      # Python / Pytest & Bandit
+      # -------------------------
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Cache Python packages
+        uses: actions/cache@v3
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+
+      - name: Install Python dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pytest bandit
+
+      - name: Run Bandit (Python security check) on backend
+        run: |
+          shopt -s nullglob
+          py_files=(backend/**/*.py)
+          if [ ${#py_files[@]} -eq 0 ]; then
+            echo "No Python files found for Bandit scan."
+          else
+            bandit -r backend
+          fi
+
