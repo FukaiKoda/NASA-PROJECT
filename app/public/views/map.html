@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Morocco Map • Interactive UI</title>
+  <link href="https://unpkg.com/maplibre-gl@3.6.2/dist/maplibre-gl.css" rel="stylesheet" />
+  <link rel="stylesheet" href="css/map.css">
+</head>
+<body>
+  <div id="topbar">
+  <div class="title">Morocco Map • Interactive UI</div>
+  <div class="inline" style="gap:8px">
+    <!-- <button id="toggleAiDockBtn" class="icon-btn" title="AI panel">🤖 AI</button> -->
+    <button id="togglePanelBtn">☰ Menu</button>
+  </div>
+  </div>
+  <div id="content">
+    <div class="map-wrap" style="flex:1; min-width:0">
+      <div id="map"></div>
+      <div id="minimap"></div>
+      <div id="coords"></div>
+    </div>
+    <div id="panel" class="panel">
+      <div class="panel-header">
+        <div style="font-weight:900">Settings</div>
+        <div class="settings-selector">
+          <label for="settingsSelect" style="font-size:12px; color:var(--muted); margin-bottom:8px; display:block;">Choose Category</label>
+          <select id="settingsSelect" class="settings-dropdown">
+            <option value="map">Map Styling</option>
+            <option value="layers">Map Layers</option>
+            <!-- <option value="selection">Selection Tools</option> -->
+            <option value="measure">Measure & Export</option>
+            <!-- <option value="ai">AI Analysis</option> -->
+            <option value="climate">Climate Data</option>
+          </select>
+        </div>
+      </div>
+      <div class="panel-body">
+        <!-- Quick actions -->
+        <div class="quick-actions">
+          <div class="check-row">
+            <input type="checkbox" id="darkTheme" />
+            <label for="darkTheme">Dark mode</label>
+          </div>
+          <div class="row">
+            <button id="resetBtn" class="btn small-btn half" style="margin:0">Reset view</button>
+            <button id="shareBtn" class="btn small-btn half" style="margin:0">Copy map link</button>
+          </div>
+        </div>
+
+        <div class="tab-panes">
+          <!-- MAP TAB -->
+          <div class="tab-pane" data-tabpane="map">
+            <label for="palette">Color palette</label>
+            <select id="palette">
+              <option value="#2d6cdf">Cerulean</option>
+              <option value="#10b981">Emerald</option>
+              <option value="#f59e0b">Amber</option>
+              <option value="#ef4444">Crimson</option>
+              <option value="#6366f1">Indigo</option>
+            </select>
+
+            <label for="opacity">Fill opacity</label>
+            <div class="row">
+              <input id="opacity" class="grow" type="range" min="0" max="0.95" step="0.05" value="0.5" />
+              <span id="opacityVal" class="val">0.50</span>
+            </div>
+            <div class="check-row">
+              <input type="checkbox" id="fillHide" />
+              <label for="fillHide">Hide fill completely</label>
+            </div>
+
+            <label for="stroke">Border width</label>
+            <div class="row">
+              <input id="stroke" class="grow" type="range" min="0" max="3" step="0.25" value="1" />
+              <span id="strokeVal" class="val">1.00</span>
+            </div>
+
+            <div class="check-row">
+              <input type="checkbox" id="labelsToggle" checked />
+              <label for="labelsToggle">Show region names</label>
+            </div>
+
+            <div class="check-row">
+              <input type="checkbox" id="maskOutside" checked />
+              <label for="maskOutside">Shade outside Morocco</label>
+            </div>
+
+            <div class="check-row">
+              <input type="checkbox" id="mode3D" />
+              <label for="mode3D">3D mode (tilt/rotate)</label>
+            </div>
+          </div>
+
+          <!-- LAYERS TAB -->
+          <div class="tab-pane" data-tabpane="layers">
+            <label for="baseLayer">Base layer</label>
+            <select id="baseLayer">
+              <option value="none">None</option>
+              <option value="osm">OSM</option>
+              <option value="wms">WMS</option>
+            </select>
+            <div id="wmsOptions" style="display:none; margin-top:8px">
+              <label for="wmsUrl">WMS URL</label>
+              <input id="wmsUrl" type="text" placeholder="https://example.com/geoserver/wms" value="https://ows.terrestris.de/osm/service" />
+              <label for="wmsLayers">WMS Layers</label>
+              <input id="wmsLayers" type="text" placeholder="layer1,layer2" value="OSM-WMS" />
+              <div class="split" style="margin-top:6px">
+                <button id="wmsLoad" class="btn half" style="margin:0">Load layers</button>
+                <button id="wmsApply" class="btn half" style="margin:0">Apply WMS</button>
+              </div>
+              <div class="small subtle" style="margin-top:6px">You can select multiple layers from the list below:</div>
+              <select id="wmsLayersSelect" multiple size="6" style="width:100%; margin-top:6px; padding:6px; border:1px solid var(--border); border-radius:12px; background:var(--card); color:var(--fg); outline:none; box-shadow: inset 0 1px 2px rgba(0,0,0,0.04) "></select>
+            </div>
+          </div>
+
+          <!-- SELECTION TAB -->
+          <div class="tab-pane" data-tabpane="selection">
+            <label for="searchInput">Search region</label>
+            <div class="relative">
+              <div class="split">
+                <input id="searchInput" type="text" placeholder="Type region name..." />
+                <button id="searchBtn" class="btn half" style="margin:0">Zoom</button>
+              </div>
+              <div id="searchSuggestions"></div>
+            </div>
+            <div class="small subtle" style="margin-top:6px">Press Enter to zoom to the first result</div>
+            <div style="height:10px"></div>
+            <div class="subtle" style="margin-bottom:6px">Selection details</div>
+            <div id="selectionInfo" class="small mono" style="white-space:pre-wrap; word-break:break-word; max-height:120px; overflow:auto; border:1px dashed var(--border); border-radius:8px; padding:8px; background:rgba(0,0,0,0.02)">—</div>
+          </div>
+
+          <!-- MEASURE / EXPORT TAB -->
+          <div class="tab-pane" data-tabpane="measure">
+            <div class="check-row">
+              <input type="checkbox" id="measureToggle" />
+              <label for="measureToggle">Measure distance</label>
+            </div>
+            <div class="split" style="margin-top:6px">
+              <button id="measureClear" class="btn half" style="margin:0">Clear measure</button>
+              <button id="screenshotBtn" class="btn half" style="margin:0">Save as image</button>
+            </div>
+          </div>
+
+          <!-- AI TAB -->
+          <div class="tab-pane" data-tabpane="ai">
+            <div class="subtle" style="margin-bottom:6px">AI analysis</div>
+            <!-- <label for="aiKey">OpenRouter API key</label> -->
+            <!-- <input id="aiKey" type="password" placeholder="Paste your OpenRouter API key" autocomplete="off" /> -->
+            <!-- <div class="small subtle" style="margin-top:6px">Your key is stored locally in this browser.</div> -->
+            <button id="aiAnalyzeBtn" class="btn" style="margin-top:10px">Analyze with AI</button>
+            <div id="aiOutput" class="small mono" style="white-space:pre-wrap; word-break:break-word; max-height:160px; overflow:auto; border:1px dashed var(--border); border-radius:8px; padding:8px; background:rgba(0,0,0,0.02); margin-top:8px">—</div>
+          </div>
+
+          <!-- CLIMATE TAB -->
+          <div class="tab-pane" data-tabpane="climate">
+            <div class="radius-section">
+              <div class="section-header">
+                <div class="section-title"> Radius Control</div>
+                <div class="section-subtitle">Set analysis radius for climate data</div>
+              </div>
+              
+              <div class="radius-input-group">
+                <label for="radiusKm">Radius Distance</label>
+                <div class="input-with-unit">
+                  <input id="radiusKm" type="number" min="1" max="100" step="1" value="10" />
+                  <span class="unit-label">km</span>
+                </div>
+              </div>
+              
+              <div class="radius-slider-container">
+                <div class="slider-header">
+                  <span class="slider-label">Adjust Radius</span>
+                  <span class="slider-value" id="radiusValue">10 km</span>
+                </div>
+                <div class="slider-wrapper">
+                  <div class="slider-track-container">
+                    <input id="radiusSlider" type="range" min="1" max="100" step="1" value="10" class="radius-slider" />
+                    <div class="slider-markers">
+                      <span class="marker" style="left: 0%">1</span>
+                      <span class="marker" style="left: 24%">25</span>
+                      <span class="marker" style="left: 49%">50</span>
+                      <span class="marker" style="left: 74%">75</span>
+                      <span class="marker" style="left: 99%">100</span>
+                    </div>
+                  </div>
+                  <button id="geoBtn" class="geo-locate-btn" title="Use my current location">
+                    <svg class="icon-16" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M12 8c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4zm8.94 3A8.994 8.994 0 0013 3.06V1h-2v2.06A8.994 8.994 0 003.06 11H1v2h2.06A8.994 8.994 0 0011 20.94V23h2v-2.06A8.994 8.994 0 0020.94 13H23v-2h-2.06zM12 19c-3.87 0-7-3.13-7-7s3.13-7 7-7 7 3.13 7 7-3.13 7-7 7z"/>
+                    </svg>
+                    <span>Locate Me</span>
+                  </button>
+                </div>
+              </div>
+              
+              <!-- <div class="radius-info">
+                <div class="info-icon">💡</div>
+                <div class="info-text">Click anywhere on the map to draw a circle with this radius for climate analysis.</div>
+              </div> -->
+            </div>
+            <div style="height:10px"></div>
+            <div class="subtle" style="margin-bottom:6px">Climate stats page</div>
+            <button id="openStatsBtn" class="btn">Open climate statistics</button>
+            <div class="small subtle" style="margin-top:6px">Opens the per-year averages view for the current point and radius.</div>
+            <div class="row" style="gap:8px; margin-top:10px">
+              <button id="copyStatsLinkBtn" class="icon-btn"><svg class="icon-16" viewBox="0 0 24 24" fill="currentColor"><path d="M3.9 12a5 5 0 017.07-7.07l1.41 1.41-1.41 1.41-1.41-1.41a3 3 0 100 4.24l1.41 1.41-1.41 1.41L7.07 12A5 5 0 013.9 12zm16.2 0a5 5 0 01-7.07 7.07l-1.41-1.41 1.41-1.41 1.41 1.41a3 3 0 100-4.24l-1.41-1.41 1.41-1.41L16.93 12A5 5 0 0120.1 12z"></path></svg>Copy stats link</button>
+              <button id="exportCircleBtn" class="icon-btn"><svg class="icon-16" viewBox="0 0 24 24" fill="currentColor"><path d="M5 20h14v-2H5v2zm7-18l5 5h-4v6h-2V7H7l5-5z"></path></svg>Export GeoJSON</button>
+            </div>
+            <div class="chips" style="margin-top:10px">
+              <button class="chip" data-ll="-7.5898, 33.5731">Casablanca</button>
+              <button class="chip" data-ll="-6.8498, 34.0209">Rabat</button>
+              <button class="chip" data-ll="-7.9811, 31.6295">Marrakesh</button>
+              <button class="chip" data-ll="-4.9998, 34.0331">Fes</button>
+              <button class="chip" data-ll="-5.809, 35.767">Tangier</button>
+              <button class="chip" data-ll="-9.5981, 30.4278">Agadir</button>
+              <button class="chip" data-ll="-1.907, 34.681">Oujda</button>
+              <button class="chip" data-ll="-13.2017, 27.1253">Laayoune</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Left AI dock (single-page merged AI) -->
+  <div id="aiDock" aria-live="polite">
+    <div class="head">
+      <div>AI Insights</div>
+      <button class="close" id="closeAiDock">Close</button>
+    </div>
+    <div class="body">
+      <div class="small subtle" style="margin-bottom:6px">Analyze climate for the current point</div>
+      <label for="aiDockKey">OpenRouter API key</label>
+      <input id="aiDockKey" type="password" placeholder="Paste OpenRouter API key" autocomplete="off" />
+      <button id="aiDockAnalyze" class="btn" style="margin-top:10px">Analyze with AI</button>
+      <div id="aiDockOutput" class="small mono" style="white-space:pre-wrap; word-break:break-word; max-height:160px; overflow:auto; border:1px dashed var(--border); border-radius:8px; padding:8px; background:rgba(0,0,0,0.02); margin-top:8px">—</div>
+    </div>
+  </div>
+
+  <!-- Bottom-left mini stats card (merged test.html) -->
+  <!-- <div id="statsMini">
+    <div class="head">
+      <div>Climate stats</div>
+      <div class="inline" style="gap:6px">
+        <button id="statsMiniExpand" class="icon-btn" title="Expand">⤢</button>
+        <button id="statsMiniClose" class="icon-btn" title="Hide">✕</button>
+      </div>
+    </div>
+    <div class="body">
+      <div class="kpis">
+        <div class="kpi"><b id="kpiDays">—</b><span>Days</span></div>
+        <div class="kpi"><b id="kpiRadius">—</b><span>Radius (km)</span></div>
+        <div class="kpi"><b id="kpiYears">—</b><span>Years</span></div>
+      </div>
+      <div class="progress" title="Loading progress"><i id="miniProgress"></i></div>
+      <canvas id="miniChart" height="80"></canvas>
+      <div class="actions">
+        <button id="statsMiniCsv" class="icon-btn">⬇ CSV</button>
+        <button id="statsMiniPng" class="icon-btn">🖼 PNG</button>
+      </div>
+      <div class="small subtle" style="margin-top:6px">Tip: Click on the map to update for that location.</div>
+    </div>
+  </div> -->
+
+  <!-- Expanded stats modal -->
+  <div id="statsModal">
+    <div class="sheet">
+      <div class="head">
+        <div>Climate statistics</div>
+        <button class="close" id="statsModalClose">Close</button>
+      </div>
+      <div class="body">
+        <canvas id="bigChart" height="240"></canvas>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- <div id="legend">💡 Tip: Drag to pan, use the mouse wheel to zoom, and click to get the name and coordinates.</div> -->
+
+  <div id="loaderOverlay" aria-live="polite" aria-busy="true">
+    <div>
+      <div class="loader" role="status" aria-label="Loading"></div>
+  <div class="loader-text">Loading boundaries...</div>
+    </div>
+  </div>
+
+  <div id="toasts"></div>
+  <div id="hoverTip" class="hover-tip"></div>
+  <div id="shortcuts">
+    <div class="sheet">
+      <button class="close" onclick="document.getElementById('shortcuts').style.display='none'">Close</button>
+      <h3>Keyboard shortcuts</h3>
+      <ul>
+        <li>?: Toggle this help</li>
+        <li>F: Fit Morocco bounds</li>
+        <li>L: Toggle labels</li>
+        <li>M: Toggle measure tool</li>
+        <li>R: Toggle outside mask</li>
+        <li>3: Toggle 3D tilt</li>
+        <li>G: Toggle dark mode</li>
+      </ul>
+    </div>
+  </div>
+  <script src="https://unpkg.com/maplibre-gl@3.6.2/dist/maplibre-gl.js"></script>
+  <script src="https://unpkg.com/@turf/turf@6/turf.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+  <script src="js/map.js"></script>
+</body>
+</html>
+<!-- MapLibre GL JS -->

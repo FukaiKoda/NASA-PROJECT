@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>NASA Climate Statistics</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://unpkg.com/@turf/turf@6/turf.min.js"></script>
+  <link rel="stylesheet" href="css/climate.css">
+</head>
+<body>
+  <div class="topbar">
+    <div class="brand">Climate Statistics</div>
+    <div class="toolbar">
+      <button id="toggleTheme" class="btn secondary" title="Light/Dark mode">Theme
+        <svg class="icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path></svg>
+      </button>
+      <button id="openMapBtn" class="btn secondary" title="Open map">Map
+        <svg class="icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M9 3l6 2 6-2v18l-6 2-6-2-6 2V3l6-2zM9 5v14l6 2V7L9 5z"></path></svg>
+      </button>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="card" style="margin-bottom: 20px;">
+      <div class="card-header">Inputs</div>
+      <div class="card-body">
+        <div class="row">
+          <input class="input half" type="text" id="coords" value="-7.053960, 33.953600" placeholder="-9.051630, 28.618670" />
+          <input class="input" style="max-width:160px" type="number" id="radiusKm" value="10" min="1" max="100" step="1" />
+          <button class="btn" onclick="updateData()">Update data</button>
+        </div>
+        <div class="slider-row">
+          <span class="muted" style="min-width:80px;text-align:center">Radius</span>
+          <input id="radiusSlider" class="slider" type="range" min="1" max="100" step="1" value="10" />
+          <button id="geoBtn" class="icon-btn" title="Use my location">
+            <svg class="icon-16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l3 7 7 3-7 3-3 7-3-7-7-3 7-3 3-7z"></path></svg>
+            Locate
+          </button>
+          <button id="copyLinkBtn" class="icon-btn" title="Copy share link">
+            <svg class="icon-16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3.9 12a5 5 0 017.07-7.07l1.41 1.41-1.41 1.41-1.41-1.41a3 3 0 100 4.24l1.41 1.41-1.41 1.41L7.07 12A5 5 0 013.9 12zm16.2 0a5 5 0 01-7.07 7.07l-1.41-1.41 1.41-1.41 1.41 1.41a3 3 0 100-4.24l-1.41-1.41 1.41-1.41L16.93 12A5 5 0 0120.1 12z"></path></svg>
+            Copy link
+          </button>
+          <button id="exportCsvBtn" class="icon-btn" title="Export CSV">
+            <svg class="icon-16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M5 20h14v-2H5v2zm7-18l5 5h-4v6h-2V7H7l5-5z"></path></svg>
+            CSV
+          </button>
+          <button id="downloadPngBtn" class="icon-btn" title="Download chart PNG">
+            <svg class="icon-16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M5 20h14v-2H5v2zM12 2l5 5h-4v6h-2V7H7l5-5z"></path></svg>
+            PNG
+          </button>
+        </div>
+        <div class="row" style="margin-top:10px">
+          <span class="muted" style="min-width:80px;text-align:center">Years</span>
+          <select id="startYear" class="select" style="max-width:120px"></select>
+          <span class="muted">to</span>
+          <select id="endYear" class="select" style="max-width:120px"></select>
+          <button class="btn secondary" id="applyYearBtn" title="Apply year range">Apply</button>
+        </div>
+        <div class="inline-help">This value is the radius around the point, not the diameter.</div>
+        <div class="chips" style="margin-top:8px">
+          <button class="chip" data-ll="-7.5898, 33.5731">Casablanca</button>
+          <button class="chip" data-ll="-6.8498, 34.0209">Rabat</button>
+          <button class="chip" data-ll="-7.9811, 31.6295">Marrakech</button>
+          <button class="chip" data-ll="-4.9998, 34.0331">Fes</button>
+          <button class="chip" data-ll="-5.809, 35.767">Tangier</button>
+          <button class="chip" data-ll="-9.5981, 30.4278">Agadir</button>
+          <button class="chip" data-ll="-1.907, 34.681">Oujda</button>
+          <button class="chip" data-ll="-13.2017, 27.1253">Laayoune</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="cards">
+      <div class="card">
+        <div class="card-header">Summary & Chart</div>
+        <div class="card-body">
+          <div class="kpis">
+            <div class="kpi"><div class="label">Sample points</div><div id="kpiSamples" class="value">—</div></div>
+            <div class="kpi"><div class="label">Radius (km)</div><div id="kpiRadius" class="value">—</div></div>
+            <div class="kpi"><div class="label">Year range</div><div id="kpiYears" class="value">—</div></div>
+          </div>
+          <div id="status" class="muted" style="margin-bottom:8px"></div>
+          <div class="progress" title="Progress"><div id="progressBar"></div></div>
+          <div id="chartContainer"><div id="chartSkeleton" class="skeleton skeleton-card" style="display:none"></div><canvas id="climateChart"></canvas></div>
+          <div style="margin-top:12px">
+            <div id="tableSkeleton" class="skeleton skeleton-table" style="display:none"></div>
+            <table>
+              <thead>
+                <tr>
+                  <th>Year</th>
+                  <th>Avg temperature (°C)</th>
+                  <th>Avg humidity (%)</th>
+                  <th>Total rainfall (mm)</th>
+                </tr>
+              </thead>
+              <tbody id="statsTable"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">AI Analysis</div>
+        <div class="card-body">
+          <div class="ai-row">
+            <button class="btn" id="aiAnalyzeBtn">Analyze with AI</button>
+          </div>
+          <div id="aiOutput" style="margin-top:10px">—</div>
+          <!-- <div class="help" style="text-align:center;">API key is configured in code (OPENROUTER_API_KEY)</div> -->
+        </div>
+      </div>
+    </div>
+
+  <div class="footer">© 2025 — climate statistics</div>
+  </div>
+  <div id="toasts"></div>
+
+  <script src="js/climate.js"></script>
+</body>
+</html>
