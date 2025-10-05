@@ -1,23 +1,442 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>No Content</title>
-    <style>
-        body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            font-family: Arial, sans-serif;
-            background-color: #f0f0f0;
-            color: #333;
-        }
-    </style>
-</head>
-<body>
-    <h1>No content for now</h1>
-</body>
-</html>
 
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>Index - Clarity Bootstrap Template</title>
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+
+  <!-- Favicons -->
+  <link href="assets/img/titile.png" rel="icon">
+  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com" rel="preconnect">
+  <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Quicksand:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="assets/vendor/aos/aos.css" rel="stylesheet">
+  <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+  <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+
+  <!-- Main CSS File -->
+  <link href="views/css/main.css" rel="stylesheet">
+
+  <!-- =======================================================
+  * Template Name: Clarity
+  * Template URL: https://bootstrapmade.com/clarity-bootstrap-agency-template/
+  * Updated: Sep 13 2025 with Bootstrap v5.3.8
+  * Author: BootstrapMade.com
+  * License: https://bootstrapmade.com/license/
+  ======================================================== -->
+</head>
+
+<body class="index-page">
+
+  <header id="header" class="header d-flex align-items-center sticky-top">
+    <div class="header-container container-fluid container-xl position-relative d-flex align-items-center justify-content-between">
+
+      <a href="index.html" class="logo d-flex align-items-center me-auto me-xl-0">
+        <!-- Uncomment the line below if you also wish to use an image logo -->
+        <!-- <img src="assets/img/logo.webp" alt=""> -->
+        <h1 class="sitename">Astroleet</h1>
+      </a>
+
+      <nav id="navmenu" class="navmenu">
+        <ul>
+          <li><a href="#hero" class="active">Home</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#services">Services</a></li>
+          <li><a href="#team">Team</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+        <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+      </nav>
+
+      <a class="btn-getstarted" href="#about">Explore Map</a>
+
+    </div>
+  </header>
+
+  <main class="main">
+
+    <!-- Hero Section -->
+    <section id="hero" class="hero section">
+
+      <div class="container">
+        <div class="row align-items-center">
+          <div class="col-lg-6" data-aos="fade-right" data-aos-delay="100">
+            <div class="hero-content">
+              <h1>Mapping Morocco's Agricultural Future</h1>
+              <p>              <p>Discover regional agricultural challenges across Morocco and explore innovative solutions to build sustainable agricultural systems. From water scarcity to desertification, we're documenting the issues and highlighting pathways to resilience.</p></p>
+              <div class="hero-buttons">
+                <a href="#" class="btn btn-primary">Explore Map</a>
+                <a href="#about" class="btn btn-outline">Learn More</a>
+              </div>
+              <div class="hero-stats">
+                <div class="stat-item">
+                  <span class="stat-number purecounter" data-purecounter-start="0" data-purecounter-end="12" data-purecounter-duration="1"></span>
+                  <span class="stat-label">Regions Mapped</span>
+                </div>
+                <div class="stat-item">
+                  <span class="stat-number purecounter" data-purecounter-start="0" data-purecounter-end="50" data-purecounter-duration="1"></span>
+                  <span class="stat-label">Challenges Documented</span>
+                </div>
+                <div class="stat-item">
+                  <span class="stat-number purecounter" data-purecounter-start="0" data-purecounter-end="100" data-purecounter-duration="1"></span>
+                  <span class="stat-label">Solutions Identified</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-6" data-aos="fade-left" data-aos-delay="200">
+            <div class="hero-visual">
+              <div class="hero-image">
+                <div class='planet-container'>
+                  <div class='night'></div>
+                  <div class='day'></div>
+                  <div class='clouds'></div>
+                  <div class='inner-shadow'></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-bg-elements">
+        <div class="bg-shape shape-1"></div>
+        <div class="bg-shape shape-2"></div>
+        <div class="bg-particles"></div>
+      </div>
+
+    </section><!-- /Hero Section -->
+
+    <!-- About Section -->
+    <section id="about" class="about section">
+
+      <div class="container" data-aos="fade-up" data-aos-delay="100">
+
+        <div class="row gy-5 align-items-center">
+
+          <div class="col-lg-5" data-aos="fade-right" data-aos-delay="200">
+            <div class="content">
+              <h6 class="subtitle">Our Mission</h6>
+              <h2>Addressing Morocco's Agricultural & Environmental Challenges</h2>
+              <p>
+                Our platform provides an interactive experience to explore and address the critical agricultural and environmental challenges facing Morocco's diverse regions. From water scarcity in the Atlas Mountains to desertification in the south, we present localized problems and highlight sustainable solutions that are vital for Morocco's future.
+              </p>
+
+              <p>
+                These regional issues directly impact food security, rural livelihoods, and national stability, making targeted interventions essential for long-term agricultural resilience and sustainable development across Morocco.
+              </p>
+
+              <ul class="features-list">
+                <li><i class="bi bi-check-circle-fill"></i><span>Interactive regional mapping of agricultural challenges</span></li>
+                <li><i class="bi bi-check-circle-fill"></i><span>Sustainable solutions for water scarcity and desertification</span></li>
+                <li><i class="bi bi-check-circle-fill"></i><span>Data-driven insights for food security and rural development</span></li>
+              </ul>
+
+              <a href="#" class="btn btn-primary">Explore Challenges</a>
+            </div>
+          </div>
+
+          <div class="col-lg-7" data-aos="fade-left" data-aos-delay="300">
+            <div class="image-composition">
+              <div class="image-main">
+                <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Data analysis dashboard with charts and agricultural metrics" class="img-fluid" loading="lazy">
+              </div>
+              <div class="image-secondary">
+                <img src="https://images.unsplash.com/photo-1594736797933-d0b22d3bb3de?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Satellite view of agricultural land and Morocco terrain" class="img-fluid" loading="lazy">
+              </div>
+              <div class="stats-card">
+                <div class="stats-item">
+                  <h3>12</h3>
+                  <p>Regions Mapped</p>
+                </div>
+                <div class="stats-item">
+                  <h3>50+</h3>
+                  <p>Solutions Identified</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </section><!-- /About Section -->
+
+    <!-- Services Section -->
+    <section id="services" class="services section">
+
+      <!-- Section Title -->
+      <div class="container section-title" data-aos="fade-up">
+        <h2>Our Services</h2>
+        <p>Leveraging NASA satellite data and advanced analytics to address Morocco's agricultural challenges through comprehensive data analysis and actionable solutions</p>
+      </div><!-- End Section Title -->
+
+      <div class="container" data-aos="fade-up" data-aos-delay="100">
+
+        <div class="row gy-4">
+          <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
+            <div class="service-card">
+              <div class="service-icon">
+                <i class="bi bi-globe2"></i>
+              </div>
+              <h4>NASA Data Analysis</h4>
+              <p>Analyzing NASA satellite data to identify key agricultural and environmental problems across Morocco's diverse regions, from water scarcity to soil degradation.</p>
+              <div class="service-badge">Core Service</div>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="300">
+            <div class="service-card">
+              <div class="service-icon">
+                <i class="bi bi-bar-chart"></i>
+              </div>
+              <h4>Data Processing & Visualization</h4>
+              <p>Processing complex satellite and environmental data into readable formats including interactive charts, maps, and comprehensive lists for easy understanding.</p>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="400">
+            <div class="service-card">
+              <div class="service-icon">
+                <i class="bi bi-lightbulb"></i>
+              </div>
+              <h4>Solution Development</h4>
+              <p>Providing targeted, actionable solutions to identified agricultural challenges, from sustainable farming practices to water conservation strategies.</p>
+            </div>
+          </div>
+
+
+
+        </div>
+
+        <div class="row mt-5">
+          <div class="col-12 text-center" data-aos="fade-up" data-aos-delay="400">
+            <div class="services-cta">
+              <h3>Ready to Transform Morocco's Agricultural Future?</h3>
+              <p>Let's work together to analyze data and develop sustainable solutions for Morocco's farming communities</p>
+              <span class="btn btn-primary">Start Analysis Today</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </section><!-- /Services Section -->
+    <!-- Team Section -->
+    <section id="team" class="team section">
+
+      <!-- Section Title -->
+      <div class="container section-title" data-aos="fade-up">
+        <h2>Our Team</h2>
+      </div><!-- End Section Title -->
+
+      <div class="container" data-aos="fade-up" data-aos-delay="100">
+
+        <div class="row g-4">
+
+          <div class="col-lg-6">
+            <div class="team-intro" data-aos="fade-right" data-aos-delay="150">
+              <div class="intro-content">
+                <h3>Our Dedicated Team</h3>
+                <p>We are a team of 6 IT students passionate about leveraging technology to address Morocco's agricultural challenges through innovative NASA data analysis and sustainable solutions.</p>
+                <div class="stats-row">
+                  <div class="stat-item">
+                    <span class="stat-number">6</span>
+                    <span class="stat-label">Team Members</span>
+                  </div>
+                  <div class="stat-item">
+                    <span class="stat-number">5</span>
+                    <span class="stat-label">Technologies</span>
+                  </div>
+                  <div class="stat-item">
+                    <span class="stat-number">48</span>
+                    <span class="stat-label">Hours Coding</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-6">
+            <div class="team-grid" data-aos="fade-left" data-aos-delay="200">
+              <div class="member-hexagon" data-aos="zoom-in" data-aos-delay="250">
+                <div class="hexagon-inner">
+                  <img src="assets/img/person/person-f-3.webp" alt="Team member">
+                  <div class="member-overlay">
+                    <h5>Team Member 1</h5>
+                    <span>Position Title</span>
+                    <div class="social-icons">
+                      <a href="#"><i class="bi bi-linkedin"></i></a>
+                      <a href="#"><i class="bi bi-github"></i></a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="member-hexagon" data-aos="zoom-in" data-aos-delay="300">
+                <div class="hexagon-inner">
+                  <img src="assets/img/person/person-m-4.webp" alt="Team member">
+                  <div class="member-overlay">
+                    <h5>Team Member 2</h5>
+                    <span>Position Title</span>
+                    <div class="social-icons">
+                      <a href="#"><i class="bi bi-linkedin"></i></a>
+                      <a href="#"><i class="bi bi-github"></i></a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="member-hexagon" data-aos="zoom-in" data-aos-delay="350">
+                <div class="hexagon-inner">
+                  <img src="assets/img/person/person-f-8.webp" alt="Team member">
+                  <div class="member-overlay">
+                    <h5>Team Member 3</h5>
+                    <span>Position Title</span>
+                    <div class="social-icons">
+                      <a href="#"><i class="bi bi-linkedin"></i></a>
+                      <a href="#"><i class="bi bi-github"></i></a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="member-hexagon" data-aos="zoom-in" data-aos-delay="400">
+                <div class="hexagon-inner">
+                  <img src="assets/img/person/person-m-6.webp" alt="Team member">
+                  <div class="member-overlay">
+                    <h5>Team Member 4</h5>
+                    <span>Position Title</span>
+                    <div class="social-icons">
+                      <a href="#"><i class="bi bi-linkedin"></i></a>
+                      <a href="#"><i class="bi bi-github"></i></a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="member-hexagon" data-aos="zoom-in" data-aos-delay="450">
+                <div class="hexagon-inner">
+                  <img src="assets/img/person/person-f-14.webp" alt="Team member">
+                  <div class="member-overlay">
+                    <h5>Team Member 5</h5>
+                    <span>Position Title</span>
+                    <div class="social-icons">
+                      <a href="#"><i class="bi bi-linkedin"></i></a>
+                      <a href="#"><i class="bi bi-github"></i></a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="member-hexagon" data-aos="zoom-in" data-aos-delay="500">
+                <div class="hexagon-inner">
+                  <img src="assets/img/person/person-m-9.webp" alt="Team member">
+                  <div class="member-overlay">
+                    <h5>Team Member 6</h5>
+                    <span>Position Title</span>
+                    <div class="social-icons">
+                      <a href="#"><i class="bi bi-linkedin"></i></a>
+                      <a href="#"><i class="bi bi-github"></i></a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </section><!-- /Team Section -->
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact section">
+      <!-- Section Title -->
+      <div class="container section-title" data-aos="fade-up">
+        <h2>Send Us a Message</h2>
+        <p>Have questions about our agricultural data analysis project? We'd love to hear from you.</p>
+      </div><!-- End Section Title -->
+
+      <div class="container" data-aos="fade-up" data-aos-delay="100">
+        <div class="row justify-content-center">
+          <div class="col-lg-8 col-md-10">
+            <div class="contact-form-card">
+              <div class="form-header">
+                <div class="header-icon">
+                  <i class="bi bi-envelope-heart"></i>
+                </div>
+                <h3>Get in Touch</h3>
+                <p>Whether you're interested in our research, want to collaborate, or have questions about Morocco's agricultural challenges, we're here to help.</p>
+              </div>
+
+              <form action="forms/contact.php" method="post" class="php-email-form">
+                <div class="row">
+                  <div class="col-md-6 mb-3">
+                    <input type="text" name="name" class="form-control" placeholder="Your Name" required="">
+                  </div>
+                  <div class="col-md-6 mb-3">
+                    <input type="email" class="form-control" name="email" placeholder="Email Address" required="">
+                  </div>
+                </div>
+
+                <div class="mb-3">
+                  <input type="text" class="form-control" name="subject" placeholder="Subject" required="">
+                </div>
+
+                <div class="mb-4">
+                  <textarea class="form-control" name="message" rows="5" placeholder="Your message..." required=""></textarea>
+                </div>
+
+                <div class="my-3">
+                  <div class="loading">Loading</div>
+                  <div class="error-message"></div>
+                  <div class="sent-message">Your message has been sent. Thank you!</div>
+                </div>
+
+                <div class="text-center">
+                  <button type="submit" class="submit-btn">
+                    <span>Send Message</span>
+                    <i class="bi bi-send-fill"></i>
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section><!-- /Contact Section -->
+
+  </main>
+
+  <!-- Scroll Top -->
+  <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+  <!-- Vendor JS Files -->
+  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/vendor/php-email-form/validate.js"></script>
+  <script src="assets/vendor/aos/aos.js"></script>
+  <script src="assets/vendor/purecounter/purecounter_vanilla.js"></script>
+  <script src="assets/vendor/imagesloaded/imagesloaded.pkgd.min.js"></script>
+  <script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+  <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
+  <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
+
+  <!-- Main JS File -->
+  <script src="views/js/main.js"></script>
+
+</body>
+
+</html>
