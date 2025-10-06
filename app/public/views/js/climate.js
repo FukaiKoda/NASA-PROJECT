@@ -5,7 +5,7 @@ let climateChart;
   appState.lastRadiusKm = 0;
   appState.lastAiRaw = '';
   // Configure your OpenRouter API key here. Keep it private.
-  const OPENROUTER_API_KEY = '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';
+  const OPENROUTER_API_KEY = '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';
   const API_PARAMS = 'PRECTOTCORR,T2M,RH2M';
   let API_START = '20170101';
   let API_END   = '20241201';
