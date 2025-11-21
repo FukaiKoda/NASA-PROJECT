@@ -70,8 +70,7 @@ jobs:
               echo "Validating $file"
               html-validator --file="$file" --verbose --errors-only
             done
-          fi
-	
+          fi	
 deploy:
     needs: build
     runs-on: ubuntu-latest
