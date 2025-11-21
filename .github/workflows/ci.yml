@@ -3,7 +3,7 @@ name: WebApp CI
 on: [push, pull_request]
 
 jobs:
-  build-and-test:
+  build:
     runs-on: ubuntu-latest
 
     steps:
@@ -71,4 +71,15 @@ jobs:
               html-validator --file="$file" --verbose --errors-only
             done
           fi
+	
+deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
 
+    steps:
+      - name: Deploy
+        id: deployment
+        uses: actions/deploy-pages@v4
